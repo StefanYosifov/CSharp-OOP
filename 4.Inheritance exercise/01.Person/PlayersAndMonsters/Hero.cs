@@ -6,21 +6,21 @@ namespace PlayersAndMonsters
 {
     public class Hero
     {
-        public Hero(string userName, int level)
+        public Hero(string username, int level)
         {
-            UserName = userName;
+            Username = username;
             Level = level;
         }
 
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         public int Level { get; set; }
 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Type: {this.GetType().Name} Username: {this.UserName} Level: {this.Level}");
-            return sb.ToString();
+            sb.AppendLine($"Type: {this.GetType().Name} Username: {this.Username} Level: {this.Level}");
+            return sb.ToString().Trim();
         }
     }
 }
