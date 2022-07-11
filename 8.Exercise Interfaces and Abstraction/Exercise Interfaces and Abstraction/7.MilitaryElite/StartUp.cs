@@ -6,7 +6,8 @@ namespace _7.MilitaryElite
     {
         static void Main(string[] args)
         {
-            
+            //Soldier=id,first name,last name
+            //LieutenantGeneral 
         }
     }
 }
