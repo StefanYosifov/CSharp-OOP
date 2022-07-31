@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Logger_Exercise</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Loggers\" />
+  </ItemGroup>
+
+</Project>
