@@ -51,7 +51,8 @@ namespace NavalVessels.Models
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(base.ToString());
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
             string submergeMode = SubmergeMode ? "ON" : "OFF";
             sb.AppendLine($" *Submerge mode: {submergeMode}");
             return sb.ToString().Trim();

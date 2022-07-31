@@ -11,7 +11,8 @@
         private const double IncreadeDeacreasWeaponDamage = 40;
         private const double IncreaseDeacresSpeed = 5;
 
-        public Battleship(string name, double mainWeaponCaliber, double speed) : base(name, mainWeaponCaliber, speed, InitialArmorThickness)
+        public Battleship(string name, double mainWeaponCaliber, double speed)
+            : base(name, mainWeaponCaliber, speed, InitialArmorThickness)
         {
              
         }   
@@ -55,8 +56,9 @@
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(base.ToString());
-            string sonarOnOrOff = this.SonarMode ? "ON" : "OFF";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(base.ToString());
+            string sonarOnOrOff = this.SonarMode  ? "ON" : "OFF";
             sb.AppendLine($" *Sonar mode: {sonarOnOrOff}");
             return sb.ToString().Trim();
         }
