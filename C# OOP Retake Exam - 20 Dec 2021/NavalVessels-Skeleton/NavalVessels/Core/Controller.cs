@@ -39,9 +39,8 @@
             {
                 return string.Format(OutputMessages.VesselOccupied, selectedVesselName);    
             }
-            captains.Add(captain);
             vessel.Captain=captain;
-            captain.Vessels.Add(vessel);
+            captain.AddVessel(vessel);
 
             return string.Format(OutputMessages.SuccessfullyAssignCaptain, selectedCaptainName, selectedVesselName);
 
@@ -81,6 +80,10 @@
         public string CaptainReport(string captainFullName)
         {
             ICaptain captain = captains.FirstOrDefault(x => x.FullName == captainFullName);
+            if (captain == null)
+            {
+                return String.Format(OutputMessages.CaptainNotFound, captainFullName);
+            }
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(captain.Report());
             return sb.ToString().TrimEnd();
@@ -137,27 +140,31 @@
         {
             IVessel vessel = vessels.FindByName(vesselName);
 
-            if (vessel.GetType().Name==nameof(Submarine))
+            if (vessel == null)
             {
-                Submarine submarine=vessel as Submarine;
+                return String.Format(OutputMessages.VesselNotFound, vesselName);
+            }
+            else if (vessel.GetType().Name == nameof(Submarine))
+            {
+                Submarine submarine = vessel as Submarine;
                 submarine.ToggleSubmergeMode();
                 return string.Format(OutputMessages.ToggleSubmarineSubmergeMode, vesselName);
             }
-
-            else if (vessel.GetType().Name == nameof(Battleship))
+            else 
             {
-                Battleship battleship=vessel as Battleship;
+                Battleship battleship = vessel as Battleship;
                 battleship.ToggleSonarMode();
                 return String.Format(OutputMessages.ToggleBattleshipSonarMode, vesselName);
-            }
-
-
-            return String.Format(OutputMessages.VesselNotFound, vesselName);
+            }  
         }
 
         public string VesselReport(string vesselName)
         {
             IVessel vessel = vessels.FindByName(vesselName);
+            if(vessel == null)
+            {
+                return string.Format(OutputMessages.VesselNotFound, vesselName);
+            }
             return vessel.ToString().TrimEnd();
         }
     }

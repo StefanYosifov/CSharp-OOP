@@ -15,7 +15,7 @@ namespace NavalVessels.Models
         {
 
         }
-        private bool submergeMode;
+        private bool submergeMode=false;
         public bool SubmergeMode
         {
             get

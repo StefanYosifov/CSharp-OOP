@@ -18,7 +18,7 @@
         }   
 
 
-        private bool sonarMode;
+        private bool sonarMode=false;
 
         public bool SonarMode
         {
@@ -26,10 +26,7 @@
             {
                 return this.sonarMode;
             }
-            protected set
-            {
-                this.sonarMode = false;
-            }
+            
         }
 
         public override void RepairVessel()
@@ -43,13 +40,13 @@
             if (this.SonarMode == false)
             {
                 this.MainWeaponCaliber += IncreadeDeacreasWeaponDamage;
-                this.SonarMode = true;
+                this.sonarMode = true;
                 this.Speed -= IncreaseDeacresSpeed;
             }
             else
             {
                 this.MainWeaponCaliber -= IncreadeDeacreasWeaponDamage;
-                this.SonarMode = false;
+                this.sonarMode = false;
                 this.Speed += IncreaseDeacresSpeed;
             }
         }

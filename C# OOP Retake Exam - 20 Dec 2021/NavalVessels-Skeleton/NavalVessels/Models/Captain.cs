@@ -25,7 +25,7 @@
             {
                 return this.fullName;
             }
-            protected set
+            private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -41,7 +41,7 @@
             {
                 return this.combatExperience;
             }
-            protected set
+            private set
             {
                 this.combatExperience = value;
             }

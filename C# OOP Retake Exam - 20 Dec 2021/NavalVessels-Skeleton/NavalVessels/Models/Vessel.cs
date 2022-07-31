@@ -22,7 +22,6 @@
             this.Speed = speed;
             this.ArmorThickness = armorThickness;
             this.targets=new List<string>();
-            this.captain = null;
         }
 
         public string Name
@@ -60,7 +59,7 @@
             {
                 return this.armorThickness;
             }
-            set
+             set
             {
                 this.armorThickness = value;
             }
@@ -100,6 +99,8 @@
                 throw new NullReferenceException(ExceptionMessages.InvalidTarget);
             }
             target.ArmorThickness -= this.MainWeaponCaliber;
+
+
             if(target.ArmorThickness < 0)
             {
                 this.ArmorThickness = 0;
@@ -126,7 +127,7 @@
             }
             else
             {
-                sb.AppendLine($" *Targets: \"None\"");
+                sb.AppendLine($" *Targets: None");
             }
             return sb.ToString().Trim();
         }
