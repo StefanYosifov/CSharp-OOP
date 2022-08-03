@@ -11,6 +11,12 @@
     {
 
         private readonly ICollection<IEquipment> models;
+
+        public EquipmentRepository()
+        {
+            this.models = new List<IEquipment>();
+        }
+
         public IReadOnlyCollection<IEquipment> Models => models as IReadOnlyCollection<IEquipment>;
 
         public void Add(IEquipment model)

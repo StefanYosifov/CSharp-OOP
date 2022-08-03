@@ -19,15 +19,22 @@
         private EquipmentRepository equipment;
         private ICollection<IGym> gyms;
 
+        public Controller()
+        {
+            this.equipment = new EquipmentRepository();
+            this.gyms = new List<IGym>();
+        }
+
 
         public string AddAthlete(string gymName, string athleteType, string athleteName, string motivation, int numberOfMedals)
         {
 
             IAthlete athlete = null;
+            IGym gym = gyms.FirstOrDefault(x=>x.Name==gymName);
             if (athleteType == nameof(Boxer))
             {
                 athlete = new Boxer(athleteName, motivation, numberOfMedals);
-                if (gymName != nameof(BoxingGym))
+                if (gym.GetType().Name!=nameof(BoxingGym))
                 {
                     return String.Format(OutputMessages.InappropriateGym);
                 }
@@ -35,7 +42,7 @@
             else if (athleteType == nameof(Weightlifter))
             {
                 athlete = new Weightlifter(athleteName, motivation, numberOfMedals);
-                if (gymName != nameof(WeightliftingGym))
+                if (gym.GetType().Name != nameof(WeightliftingGym))
                 {
                     return String.Format(OutputMessages.InappropriateGym);
                 }
@@ -45,10 +52,10 @@
                 throw new InvalidOperationException(ExceptionMessages.InvalidAthleteType);
             }
 
-            IGym gym = gyms.FirstOrDefault(x => x.Name == gymName);
+            IGym findGym = gyms.FirstOrDefault(x => x.Name == gymName);
             if (gym != null)
             {
-                gym.AddAthlete(athlete);
+                findGym.AddAthlete(athlete);
             }
 
             return String.Format(OutputMessages.EntityAddedToGym,athleteType,gymName);
@@ -94,7 +101,10 @@
 
         public string EquipmentWeight(string gymName)
         {
-            throw new NotImplementedException();
+            IGym gym = gyms.FirstOrDefault(x => x.Name == gymName);
+
+
+            return String.Format(OutputMessages.EquipmentTotalWeight, gymName,gym.EquipmentWeight);
         }
 
         public string InsertEquipment(string gymName, string equipmentType)
@@ -102,17 +112,35 @@
             IEquipment equipment=this.equipment.FindByType(equipmentType);
             IGym gym = gyms.FirstOrDefault(x => x.Name == gymName);
 
-           
+            if (equipment == null)
+            {
+                throw new InvalidOperationException(String.Format(ExceptionMessages.InexistentEquipment, equipmentType));
+            }
+            gym.AddEquipment(equipment);
+            this.equipment.Remove(equipment);
+            return String.Format(OutputMessages.SuccessfullyAdded, gymName);
         }
 
         public string Report()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var gym in gyms)
+            {
+                sb.AppendLine(gym.GymInfo());
+            }
+
+            return sb.ToString().TrimEnd();
         }
 
         public string TrainAthletes(string gymName)
         {
-            throw new NotImplementedException();
+            var atheletes = gyms.Where(x => x.Name == gymName);
+            foreach(var athlete in atheletes)
+            {
+                athlete.Exercise(); 
+            }
+            return String.Format(OutputMessages.AthleteExercise, atheletes.Count());
         }
     }
 }
