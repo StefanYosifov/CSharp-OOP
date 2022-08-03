@@ -16,7 +16,8 @@
 
         public override void Race()
         {
-            base.DrivingExperience += IncreaseDrivingExperience;
+            base.Race();
+            this.DrivingExperience += IncreaseDrivingExperience;
         }
     }
 }

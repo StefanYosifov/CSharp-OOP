@@ -82,18 +82,22 @@
             }
             private set
             {
+                if (value == null)
+                {
+                    throw new ArgumentException(ExceptionMessages.InvalidRacerCar);
+                }
                 this.car = value;
             }
         }
 
         public bool IsAvailable()
         {
-            return car.FuelAvailable >= car.FuelConsumptionPerRace;
+            return Car.FuelAvailable >= Car.FuelConsumptionPerRace;
         }
 
         public virtual void Race()
         {
-            
+            this.Car.Drive();
         }
     }
 }
