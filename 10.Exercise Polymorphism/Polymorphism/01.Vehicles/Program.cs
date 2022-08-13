@@ -1,10 +1,9 @@
 ﻿namespace Vehicles
 {
+    using P01.Vehicles.Models;
     using System;
     using Vehicles.Engine;
     using Vehicles.Factory;
-    using Vehicles.Models;
-    using Vehicles.Models.Interfaces;
 
     public class StartUp
     {

@@ -1,9 +1,7 @@
 ﻿namespace Vehicles.Models
 {
+    using P01.Vehicles.Models;
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using Vehicles.Models.Interfaces;
 
     public class Truck : Vehicle
     {

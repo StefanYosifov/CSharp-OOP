@@ -1,18 +1,14 @@
-﻿namespace Vehicles.Models.Interfaces
+﻿namespace P01.Vehicles.Models.Interfaces
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     public interface IVehicle
     {
-
         double FuelQuantity { get; }
+
         double FuelConsumption { get; }
 
-        void Drive(double distance);
+        string Drive(double distance);
 
-        void Refuel(double fuel);
-
+        void Refuel(double liters);
     }
 }

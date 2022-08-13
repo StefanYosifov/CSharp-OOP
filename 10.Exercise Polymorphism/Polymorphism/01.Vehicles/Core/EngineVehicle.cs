@@ -1,23 +1,19 @@
-﻿namespace Vehicles.Engine
+﻿namespace P01.Vehicles.Core
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using Vehicles.Factory;
-    using Vehicles.Models;
-    using Vehicles.Models.Interfaces;
+    using global::Vehicles.Engine;
+    using global::Vehicles.Models;
+    using P01.Vehicles.Models;
 
-    public class EngineVehicle : IEngine
+    public class Engine : IEngine
     {
-        private readonly ICollection<Vehicle> vehicles;
-        VehicleFactory factory = new VehicleFactory();
-        private readonly Car car;
-        private readonly Truck truck;
+        private readonly Vehicle car;
+        private readonly Vehicle truck;
 
-        public EngineVehicle()
+        public Engine(Vehicle car, Vehicle truck)
         {
-            vehicles = new List<Vehicle>();
+            this.car = car;
+            this.truck = truck;
         }
 
         public void Start()
@@ -27,49 +23,36 @@
             {
                 string[] cmdArgs = Console.ReadLine()
                     .Split();
-                string action = cmdArgs[0];
+                string cmdType = cmdArgs[0];
                 string vehicleType = cmdArgs[1];
-                double distanceAmount = double.Parse(cmdArgs[2]);
+                double cmdParam = double.Parse(cmdArgs[2]);
 
-                if (action == "Drive")
+                if (cmdType == "Drive")
                 {
                     if (vehicleType == "Car")
                     {
-                        car.Drive(distanceAmount);
+                        Console.WriteLine(car.Drive(cmdParam));
                     }
                     else if (vehicleType == "Truck")
                     {
-                        truck.Drive(distanceAmount);
+                        Console.WriteLine(this.truck.Drive(cmdParam));
                     }
                 }
-                else if (action == "Refuel")
+                else if (cmdType == "Refuel")
                 {
                     if (vehicleType == "Car")
                     {
-                        this.car.Refuel(distanceAmount);
+                        this.car.Refuel(cmdParam);
                     }
                     else if (vehicleType == "Truck")
                     {
-                        this.truck.Refuel(distanceAmount);
+                        this.truck.Refuel(cmdParam);
                     }
                 }
             }
 
             Console.WriteLine(this.car);
             Console.WriteLine(this.truck);
-
-
         }
-
-        private void AddToList(Vehicle vehicle, ICollection<Vehicle> vehicles)
-        {
-            if (vehicle != null)
-            {
-                vehicles.Add(vehicle);
-            }
-        }
-
     }
-
-
 }
