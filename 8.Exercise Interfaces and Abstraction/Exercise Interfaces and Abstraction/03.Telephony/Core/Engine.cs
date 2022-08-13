@@ -1,89 +1,99 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace _03.Telephony.Core
+namespace Telephony.Core
 {
-    using IO.Interfaces;
-    using Models;
+    using System;
+    using _03.Telephony.Core;
+    using _03.Telephony.IO.Interfaces;
+    using _03.Telephony.Models;
+
     public class Engine : IEngine
     {
+        //Fields never in Interface!!!
+        private readonly IReader reader;
+        private readonly IWriter writer;
 
-        public Engine()
+        private readonly StationaryPhone stationaryPhone;
+        private readonly SmartPhone smartphone;
+
+        private Engine()
         {
             this.stationaryPhone = new StationaryPhone();
-            this.smartPhone = new SmartPhone();
+            this.smartphone = new SmartPhone();
         }
 
-        public Engine(IReader reader,IWriter writer):this()
+        public Engine(IReader reader, IWriter writer)
+            : this()
         {
             this.reader = reader;
             this.writer = writer;
         }
 
-        private readonly IReader reader;
-        private readonly IWriter writer;
-
-
-        private readonly StationaryPhone stationaryPhone;
-        private readonly SmartPhone smartPhone;
+        //Bussiness Logic of our App
         public void Start()
         {
-            string[] phoneNumbers = this.reader.ReadLine().Split(' ');
-            string[] urls= this.reader.ReadLine().Split(' ');
+            string[] phoneNumbers = this.reader
+                .ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] urls = this.reader
+                .ReadLine()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-
-            foreach(string phone in phoneNumbers)
+            foreach (string phoneNumber in phoneNumbers)
             {
-                if (!this.ValidateCallNumber(phone))
+                if (!this.ValidateNumber(phoneNumber))
                 {
                     this.writer.WriteLine("Invalid number!");
                 }
-                else if (phoneNumbers.Length == 10)
+                else if (phoneNumber.Length == 10)
                 {
-                    this.smartPhone.Call(phone);
+                    this.writer.WriteLine(this.smartphone.Call(phoneNumber));
                 }
-                else if(phoneNumbers.Length == 7)
+                else if (phoneNumber.Length == 7)
                 {
-                    this.stationaryPhone.Call(phone);
+                    this.writer.WriteLine(this.stationaryPhone.Call(phoneNumber));
                 }
             }
 
-
-            foreach(string url in urls)
+            foreach (string url in urls)
             {
-                if (this.ValidateUrl(url))
+                if (!this.ValidateURL(url))
                 {
-                    this.writer.WriteLine("Invalid url");
+                    this.writer.WriteLine("Invalid URL!");
                 }
-                this.writer.WriteLine(this.smartPhone.BrowseUrl(url));
+                else
+                {
+                    this.writer.WriteLine(this.smartphone.BrowseUrl(url));
+                }
             }
-
         }
 
-
-        public bool ValidateCallNumber(string number)
+        //Helper method
+        private bool ValidateNumber(string number)
         {
-            foreach (var digit in number)
+            foreach (char digit in number)
             {
-                if (!char.IsDigit(digit))
+                if (!Char.IsDigit(digit))
                 {
                     return false;
                 }
             }
+
             return true;
         }
 
-        private bool ValidateUrl(string url)
+        private bool ValidateURL(string url)
         {
-            foreach(var digit in url)
+            foreach (char ch in url)
             {
-                if (char.IsDigit(digit))
+                if (Char.IsDigit(ch))
                 {
                     return false;
                 }
             }
+
             return true;
         }
     }
 }
+
